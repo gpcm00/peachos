@@ -1,0 +1,17 @@
+FLAGS = -g  -ffreestanding 			\
+			-falign-jumps 			\
+			-falign-functions		\
+			-falign-labels 			\
+			-falign-loops 			\
+			-fstrength-reduce 		\
+			-fomit-frame-pointer 	\
+			-finline-functions 		\
+			-fno-builtin 			\
+			-nostdlib 				\
+			-nostartfiles 			\
+			-nodefaultlibs 			\
+			-Wno-unused-function 	\
+			-Wno-unused-label 		\
+			-Wno-cpp -Werror		\
+			-Wno-unused-parameter 	\
+			-Wall -O0 -Iinc

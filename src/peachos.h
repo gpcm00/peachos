@@ -1,0 +1,11 @@
+#ifndef PEACHOS_H
+#define PEACHOS_H
+
+#define BIT(n)          (1<<(n))
+#define N_BIT_MASK(n)   (BIT(n)-1)
+
+#define PEACHOS_TOTAL_INTERRUPTS    512
+#define KERNEL_CODE_SELECTOR        0x08
+#define KERNEL_DATA_SELECTOR        0x10
+
+#endif
