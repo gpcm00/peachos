@@ -16,8 +16,10 @@ static inline void terminal_putchar(int x, int y, uint16_t c)
 static size_t strlen(const char* str)
 {
     size_t len = 0;
-    while (str[len++] != '\0');
-
+    while (str[len] != '\0') {
+        len++;
+    }
+    
     return len;
 }
 

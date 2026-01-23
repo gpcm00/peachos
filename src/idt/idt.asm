@@ -3,6 +3,9 @@ section .asm
 global idt_load
 global no_interrupt
 
+global enable_interrupts
+global disable_interrupts
+
 extern no_interrupt_handler
 
 %macro INT_DEFINE 1
@@ -29,6 +32,14 @@ no_interrupt:
     call no_interrupt_handler
     popad
     iret
+
+enable_interrupts:
+    sti
+    ret
+
+disable_interrupts:
+    cli
+    ret
 
 ; %assign r 20
 ; %rep 15

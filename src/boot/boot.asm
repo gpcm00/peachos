@@ -24,10 +24,8 @@ start:
     xor ax, ax       ; zero stack segment 
     mov ss, ax      
     mov sp, 0x7c00   ; stack starts
-    sti              ; set interrupt flag
 
 .load_protected:
-    cli
     lgdt[gdt_descriptor]
     mov eax, cr0
     or eax, 0x1

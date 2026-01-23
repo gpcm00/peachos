@@ -3,6 +3,7 @@
 #include "print/print.h"
 #include "idt/idt.h"
 #include "io/io.h"
+#include "memory/heap/kheap.h"
 
 void kernel_main()
 {
@@ -10,13 +11,22 @@ void kernel_main()
     print("Hello world!\n");
 
     idt_init();
+    enable_interrupts();
 
-    // uint8_t b = insb(0x60);
-    // uint16_t w = insw(0x60) + b;
+    if (kheap_init() < 0) {
+        print("Failed to initialize the heap!\n");
+        while(1);
+    }
 
-    // w ^= w;
+    void* addr1 = kmalloc(0x100);
+    void* addr2 = kmalloc(0x1001);
+    void* addr3 = kmalloc(0x10);
+    kfree(addr1);
+    void* addr4 = kmalloc(0x10);
 
-    // outb(0x60, 0xFF);
-    // outw(0x60, 0xFF);
+    if (addr1 || addr2 || addr3 || addr4) {
+        print("End of test!\n");
+    }
+
     while(1);
 }

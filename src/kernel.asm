@@ -13,8 +13,6 @@ _start:
     mov al, 0x01
     out 0x21, al
 
-    sti
-
     call kernel_main
     jmp $
 

@@ -44,6 +44,14 @@ all: ./build/boot.bin ./bin/kernel.bin
 	mkdir -p ./build/io
 	$(AS) -f elf -g ./src/io/io.asm -o ./build/io/io.asm.o
 
+./build/memory/heap/heap.o: ./src/memory/heap/heap.c
+	mkdir -p ./build/memory/heap
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/heap/heap.c -o ./build/memory/heap/heap.o
+
+./build/memory/heap/kheap.o: ./src/memory/heap/kheap.c
+	mkdir -p ./build/memory/heap
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/heap/kheap.c -o ./build/memory/heap/kheap.o
+
 clean:
 	rm -rf ./bin/boot.bin
 	rm -rf ./bin/kernel.bin
