@@ -1,6 +1,10 @@
 #ifndef PEACHOS_H
 #define PEACHOS_H
 
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 #define BIT(n)          (1<<(n))
 #define N_BIT_MASK(n)   (BIT(n)-1)
 

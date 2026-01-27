@@ -9,3 +9,14 @@ void* memset(void* ptr, int c, size_t len)
 
     return ptr;
 }
+
+void* memcpy(void* dst, const void* src, size_t size)
+{
+    char* c_dst = (char*)dst;
+    const char* c_src = (const char*)src;
+    for (size_t i = 0; i < size; i++) {
+        c_dst[i] = c_src[i];
+    }
+
+    return dst;
+}

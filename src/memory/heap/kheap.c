@@ -1,6 +1,5 @@
 #include "kheap.h"
 #include "heap.h"
-#include "peachos.h"
 #include "memory/memory.h"
 
 struct heap kernel_heap;

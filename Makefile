@@ -52,6 +52,14 @@ all: ./build/boot.bin ./bin/kernel.bin
 	mkdir -p ./build/memory/heap
 	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/heap/kheap.c -o ./build/memory/heap/kheap.o
 
+./build/memory/paging/paging.o: ./src/memory/paging/paging.c
+	mkdir -p ./build/memory/paging
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/paging/paging.c -o ./build/memory/paging/paging.o
+
+./build/memory/paging/paging.asm.o: ./src/memory/paging/paging.asm
+	mkdir -p ./build/memory/paging
+	$(AS) -f elf -g ./src/memory/paging/paging.asm -o ./build/memory/paging/paging.asm.o
+
 clean:
 	rm -rf ./bin/boot.bin
 	rm -rf ./bin/kernel.bin
