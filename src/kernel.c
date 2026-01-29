@@ -3,12 +3,14 @@
 #include "print/print.h"
 #include "idt/idt.h"
 #include "io/io.h"
+#include "disk/disk.h"
 #include "memory/memory.h"
 #include "memory/heap/kheap.h"
 #include "memory/paging/paging.h"
 
 #define KERNEL_CHUNK_FLAGS                                      \
     (PAGING_WRITEABLE | PAGING_PRESENT | PAGING_ACCESS_FROM_ALL)
+
 
 static struct paging_4gb_chunk kernel_chunk;
 void kernel_main()
@@ -47,6 +49,9 @@ void kernel_main()
 
     print(ptr);
     print(ptr2);
-    
+
+    char buff[512];
+    disk_read_sector(0, 1, buff);
+
     while(1);
 }

@@ -8,4 +8,5 @@ FILES = ./build/kernel.asm.o					\
 		./build/memory/heap/heap.o				\
 		./build/memory/heap/kheap.o				\
 		./build/memory/paging/paging.o			\
-		./build/memory/paging/paging.asm.o
+		./build/memory/paging/paging.asm.o		\
+		./build/disk/disk.o

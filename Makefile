@@ -60,6 +60,10 @@ all: ./build/boot.bin ./bin/kernel.bin
 	mkdir -p ./build/memory/paging
 	$(AS) -f elf -g ./src/memory/paging/paging.asm -o ./build/memory/paging/paging.asm.o
 
+./build/disk/disk.o: ./src/disk/disk.c
+	mkdir -p ./build/disk
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/disk/disk.c -o ./build/disk/disk.o
+
 clean:
 	rm -rf ./bin/boot.bin
 	rm -rf ./bin/kernel.bin
