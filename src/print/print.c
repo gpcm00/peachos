@@ -1,6 +1,4 @@
 #include "print.h"
-#include <stddef.h>
-#include <stdint.h>
 
 #define VGA_WIDTH   80
 #define VGA_HEIGHT  20
@@ -11,6 +9,22 @@ uint16_t terminal_col = 0;
 static inline void terminal_putchar(int x, int y, uint16_t c)
 {
     video_mem[(y*VGA_WIDTH) + x] = c;
+}
+
+static char nibble_convert(char c)
+{   
+    char n = c & 0xF;
+    if (n < 10) {
+        return n + '0';
+    }
+
+    return n + 'A' - 10;
+}
+
+static void hex_convert(char c, uint16_t* hex)
+{
+    hex[0] |= nibble_convert(c);
+    hex[1] |= nibble_convert(c >> 4);
 }
 
 static size_t strlen(const char* str)
@@ -63,4 +77,33 @@ void color_print(char* msg, char color)
 void print(char* msg)
 {
     color_print(msg, 0x0F);
+}
+
+void print_raw_bytes(void* buffer, size_t len)
+{
+    char* c_buffer = (char*)buffer;
+    uint16_t out[2];
+    out[0] = 0x0f00;
+    out[1] = 0x0f00;
+
+    uint16_t space = 0x0f00 | ' ';
+    uint16_t newline = 0xf00 | '\n';
+
+    size_t i = 0;
+
+    while (i < len) {
+        hex_convert(c_buffer[i++], out);
+        terminal_writechar(out[1]);
+        terminal_writechar(out[0]);
+        
+        out[0] &= 0xff00;
+        out[1] &= 0xff00;
+
+        if (!(i % 16)) {
+            terminal_writechar(newline);
+        } else {
+            terminal_writechar(space);
+        }
+
+    }
 }

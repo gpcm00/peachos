@@ -16,9 +16,10 @@ static struct paging_4gb_chunk kernel_chunk;
 void kernel_main()
 {
     terminal_init();
-    print("Hello world!\n");
 
     idt_init();
+
+    disk_search_and_init();
 
     if (kheap_init() < 0) {
         print("Failed to initialize the heap!\n");
@@ -28,30 +29,17 @@ void kernel_main()
     kernel_chunk = paging_new_4gb(KERNEL_CHUNK_FLAGS);
     paging_switch(&kernel_chunk);
     
-    const uint32_t addr = 0x1000;
-    char* ptr = kzalloc(4096);
-    if (paging_set(kernel_chunk.directory_entry, (void*)addr, (uint32_t)ptr | KERNEL_CHUNK_FLAGS) < 0) {
-        print("panic\n");
-        while (1);
-    }
-
-    const char str[] = "Testing paging\n";
-    paging_switch(&kernel_chunk);
     enable_paging();
     enable_interrupts();
 
-    char* ptr2 = (char*)addr;
-    memcpy(ptr2, str, sizeof(str));
-    if (ptr2 == 0) {
-        print("nothing\n");
-        while (1);
-    }
-
-    print(ptr);
-    print(ptr2);
+    struct disk* disk = get_disk(0);
 
     char buff[512];
-    disk_read_sector(0, 1, buff);
+    if (disk_read_block(disk, 0, 1, buff) < 0){
+        print ("PANIC\n");
+    }
+
+    print_raw_bytes(buff, sizeof(buff));
 
     while(1);
 }

@@ -16,6 +16,7 @@
 #define PEACHOS_HEAP_BLOCK_SIZE     4096
 #define PEACHOS_HEAP_ADDRESS        0x01000000 
 #define PEACHOS_HEAP_TABLE_ADDRESS  0x00007E00
+#define PEACHOS_SECTOR_SIZE         512
 
 enum Error_Code {
     _OK,
