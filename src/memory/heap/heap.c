@@ -61,7 +61,7 @@ static void* block_to_address(struct heap* heap, int block)
 
 static int address_to_block(struct heap* heap, void* address)
 {
-    return (int)(heap->saddr - address) / PEACHOS_HEAP_BLOCK_SIZE;
+    return (int)(address - heap->saddr) / PEACHOS_HEAP_BLOCK_SIZE;
 }
 
 static void mark_block_taken(struct heap* heap, uint32_t start, size_t blocks)

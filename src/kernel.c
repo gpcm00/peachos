@@ -7,6 +7,7 @@
 #include "memory/memory.h"
 #include "memory/heap/kheap.h"
 #include "memory/paging/paging.h"
+#include "memory/scrap/scrap.h"
 
 #define KERNEL_CHUNK_FLAGS                                      \
     (PAGING_WRITEABLE | PAGING_PRESENT | PAGING_ACCESS_FROM_ALL)
@@ -34,12 +35,52 @@ void kernel_main()
 
     struct disk* disk = get_disk(0);
 
-    char buff[512];
+    struct scrap_memory* scrap = scrap_alloc_memory(512);
+
+    char* buff = scrap_alloc_data(scrap, 512);
     if (disk_read_block(disk, 0, 1, buff) < 0){
         print ("PANIC\n");
     }
 
+    print_raw_bytes(&scrap, sizeof(struct scrap_memory*));
+    print("\n");
+
     print_raw_bytes(buff, sizeof(buff));
+    print("\n");
+    print_raw_bytes(scrap, sizeof(struct scrap_memory));
+    print("\n");
+
+    buff = scrap_alloc_data(scrap, 1);
+    print_raw_bytes(scrap, sizeof(struct scrap_memory));
+    print("\n");
+
+    buff = scrap_alloc_data(scrap, 600);
+    print_raw_bytes(scrap, sizeof(struct scrap_memory));
+    print("\n");
+
+    scrap_dealloc_data(scrap, 1);
+    print_raw_bytes(scrap, sizeof(struct scrap_memory));
+    print("\n");
+
+    print_raw_bytes(&buff, sizeof(struct scrap_memory*));
+    print("\n");
+
+    int calc = (uint32_t)buff % PEACHOS_HEAP_BLOCK_SIZE;
+    calc = (uint32_t)buff - calc;
+    print_raw_bytes(&calc, sizeof(int));
+    print("\n");
+
+    scrap_destroy_memory(scrap);
+    // kfree(scrap);
+    char* tst = kmalloc(5000);
+    print_raw_bytes(&tst, sizeof(char*));
+    print("\n");
+
+    kfree(tst);
+
+    tst = kmalloc(1);
+    print_raw_bytes(&tst, sizeof(char*));
+    print("\n");
 
     while(1);
 }

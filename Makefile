@@ -1,7 +1,8 @@
 include config/files.mk		# for FILES
 include config/flags.mk		# for FLAGS
 
-CC := i686-elf-gcc
+# CC := i686-elf-gcc
+CC := $(TARGET)-gcc
 AS := nasm
 INCLUDES := -I./src
 
@@ -63,6 +64,18 @@ all: ./build/boot.bin ./bin/kernel.bin
 ./build/disk/disk.o: ./src/disk/disk.c
 	mkdir -p ./build/disk
 	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/disk/disk.c -o ./build/disk/disk.o
+
+./build/string/string.o: ./src/string/string.c
+	mkdir -p ./build/string
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/string/string.c -o ./build/string/string.o
+
+./build/fs/pparser.o: ./src/fs/pparser.c
+	mkdir -p ./build/fs
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/fs/pparser.c -o ./build/fs/pparser.o
+
+./build/memory/scrap/scrap.o: ./src/memory/scrap/scrap.c
+	mkdir -p ./build/memory/scrap
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/scrap/scrap.c -o ./build/memory/scrap/scrap.o
 
 clean:
 	rm -rf ./bin/boot.bin

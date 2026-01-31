@@ -9,4 +9,7 @@ FILES = ./build/kernel.asm.o					\
 		./build/memory/heap/kheap.o				\
 		./build/memory/paging/paging.o			\
 		./build/memory/paging/paging.asm.o		\
-		./build/disk/disk.o
+		./build/disk/disk.o						\
+		./build/string/string.o					\
+		./build/fs/pparser.o					\
+		./build/memory/scrap/scrap.o

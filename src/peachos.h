@@ -18,6 +18,9 @@
 #define PEACHOS_HEAP_TABLE_ADDRESS  0x00007E00
 #define PEACHOS_SECTOR_SIZE         512
 
+#define PEACHOS_MAX_PATH            108
+
+
 enum Error_Code {
     _OK,
     EIO,

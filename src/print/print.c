@@ -104,6 +104,5 @@ void print_raw_bytes(void* buffer, size_t len)
         } else {
             terminal_writechar(space);
         }
-
     }
 }
