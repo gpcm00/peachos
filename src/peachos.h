@@ -8,6 +8,9 @@
 #define BIT(n)          (1<<(n))
 #define N_BIT_MASK(n)   (BIT(n)-1)
 
+#define container_of(ptr, type, member) \
+    ((type *)((char *)(ptr) - offsetof(type, member)))
+
 #define PEACHOS_TOTAL_INTERRUPTS    512
 #define KERNEL_CODE_SELECTOR        0x08
 #define KERNEL_DATA_SELECTOR        0x10

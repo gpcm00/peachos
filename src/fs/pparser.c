@@ -4,8 +4,6 @@
 #include "memory/scrap/scrap.h"
 
 #define ALLOC_ERROR     ((void*)(-1))
-#define container_of(ptr, type, member) \
-    ((type *)((char *)(ptr) - offsetof(type, member)))
 
 
 struct parser_object {

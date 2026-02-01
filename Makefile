@@ -77,6 +77,10 @@ all: ./build/boot.bin ./bin/kernel.bin
 	mkdir -p ./build/memory/scrap
 	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/scrap/scrap.c -o ./build/memory/scrap/scrap.o
 
+./build/disk/streamer.o: ./src/disk/streamer.c
+	mkdir -p ./build/disk
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/disk/streamer.c -o ./build/disk/streamer.o
+
 clean:
 	rm -rf ./bin/boot.bin
 	rm -rf ./bin/kernel.bin
