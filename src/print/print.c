@@ -65,7 +65,7 @@ void terminal_init()
     }
 }
 
-void color_print(char* msg, char color)
+void color_print(const char* msg, char color)
 {
     uint16_t base = color << 8;
     size_t len = strlen(msg);
@@ -74,12 +74,12 @@ void color_print(char* msg, char color)
     }
 }
 
-void print(char* msg)
+void print(const char* msg)
 {
     color_print(msg, 0x0F);
 }
 
-void print_raw_bytes(void* buffer, size_t len)
+void print_raw_bytes(const void* buffer, size_t len)
 {
     char* c_buffer = (char*)buffer;
     uint16_t out[2];
@@ -105,4 +105,10 @@ void print_raw_bytes(void* buffer, size_t len)
             terminal_writechar(space);
         }
     }
+}
+
+void print_newline()
+{
+    uint16_t newline = 0xf00 | '\n';
+    terminal_writechar(newline);
 }

@@ -2,8 +2,9 @@
 #define PRINT_H
 #include "peachos.h"
 void terminal_init();
-void color_print(char* msg, char color);
-void print(char* msg);
-void print_raw_bytes(void* buffer, size_t len);
+void color_print(const char* msg, char color);
+void print(const char* msg);
+void print_raw_bytes(const void* buffer, size_t len);
+void print_newline();
 
 #endif

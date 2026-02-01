@@ -22,8 +22,7 @@
 
 
 enum Error_Code {
-    _OK,
-    EIO,
+    EIO = 1,
     EINVARG,
     ENOMEM,
     EBADPATH,
@@ -32,8 +31,6 @@ enum Error_Code {
     EUNIMP,
     EISTKN,
     EINFORMAT,
-
-    N_ERRORS,
 };
 
 #endif
