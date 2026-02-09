@@ -5,3 +5,5 @@ ignore/
 
 *.o
 *.ignore
+
+mnt/

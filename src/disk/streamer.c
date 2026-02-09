@@ -23,7 +23,7 @@ int diskstreamer_read(struct disk_streamer* streamer, void* out, size_t total)
     size_t current_offset = streamer->pos;
     bool overflow = ((current_offset + total) >= PEACHOS_SECTOR_SIZE);
 
-    int lba = streamer->pos / PEACHOS_SECTOR_SIZE;
+    int lba = current_offset / PEACHOS_SECTOR_SIZE;
     int ret = disk_read_block(streamer->disk, lba, 1, buffer);
     if (ret < 0) {
         goto Fail_Out;

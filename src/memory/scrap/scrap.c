@@ -35,8 +35,8 @@ void* scrap_alloc_data(struct scrap_memory* scrap, size_t size)
     }
 
     uint32_t base = (uint32_t)scrap + scrap->next;
-    base = base;
     scrap->next += size;
+    
     return (void*)base;
 }
 

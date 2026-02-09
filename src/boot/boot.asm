@@ -11,7 +11,57 @@ entry:
     jmp short start
     nop
 
-times 33 db 0
+
+; [Reserved]    = 200
+; [FAT1]        = 256
+; [FAT2]        = 256
+; [ROOT]        = 4
+; [DATA]        = 8388608
+; times 33 db 0
+; FAT16 Header
+OEMName:                db  'PeachOS '
+BytesPerSector:         dw  512             ; 0x0200
+SectorsPerCluster:      db  128             ; 0x80
+ReservedSectorCount:    dw  200             ; 0xC8
+NumFATs:                db  2               ; 0x02
+RootEntryCount:         dw  64              ; 0x40
+TotalSectors16:         dw  0               ; 0x0000
+Media:                  db  0xF8            ; 0xF8
+SectorsPerFAT:          dw  256             ; 0x0100
+SectorsPerTrack:        dw  32              ; 0x0020
+NumHeads:               dw  64              ; 0x0040
+HiddenSectors:          dd  0               ; 0x00000000
+TotalSectors32:         dd  8387914         ; 0x007FFD4A
+                            
+; FAT16 Extended BPB
+DriveNumber:            db  0x80
+Reserved1:              db  0x00
+BootSignature:          db  0x29
+VolumeID:               dd  0xD105
+VolumeLabel:            db  'POS BOOT   '
+FileSystemType:         db  'FAT16   '
+; FAT16 Header
+; OEMIdentifier           db 'PEACHOS '
+; BytesPerSector          dw 0x200
+; SectorsPerCluster       db 0x80
+; ReservedSectors         dw 200
+; FATCopies               db 0x02
+; RootDirEntries          dw 0x40
+; NumSectors              dw 0x00
+; MediaType               db 0xF8
+; SectorsPerFat           dw 0x100
+; SectorsPerTrack         dw 0x20
+; NumberOfHeads           dw 0x40
+; HiddenSectors           dd 0x00
+; SectorsBig              dd 0x773594
+
+; ; Extended BPB (Dos 4.0)
+; DriveNumber             db 0x80
+; WinNTBit                db 0x00
+; Signature               db 0x29
+; VolumeID                dd 0xD105
+; VolumeIDString          db 'PEACHOS BOO'
+; SystemIDString          db 'FAT16   '
 
 start:
     jmp 0x0000:.init_segments

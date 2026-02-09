@@ -10,7 +10,10 @@ all: ./build/boot.bin ./bin/kernel.bin
 	rm -rf ./bin/os.bin
 	dd if=./bin/boot.bin >> ./bin/os.bin
 	dd if=./bin/kernel.bin >> ./bin/os.bin
-	dd if=/dev/zero bs=512 count=100 >> ./bin/os.bin
+	dd if=/dev/zero bs=1048576 count=16 >> ./bin/os.bin
+	sudo mount -t vfat ./bin/os.bin /mnt/d
+# Copy files over
+	sudo umount /mnt/d
 	
 ./bin/kernel.bin: $(FILES)
 	i686-elf-ld -g -r $(FILES) -o ./build/kernelfull.o
@@ -80,6 +83,10 @@ all: ./build/boot.bin ./bin/kernel.bin
 ./build/disk/streamer.o: ./src/disk/streamer.c
 	mkdir -p ./build/disk
 	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/disk/streamer.c -o ./build/disk/streamer.o
+
+./build/memory/fmalloc/fmalloc.o: ./src/memory/fmalloc/fmalloc.c
+	mkdir -p ./build/memory/fmalloc
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/fmalloc/fmalloc.c -o ./build/memory/fmalloc/fmalloc.o
 
 clean:
 	rm -rf ./bin/boot.bin

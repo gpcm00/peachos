@@ -13,4 +13,5 @@ FILES = ./build/kernel.asm.o					\
 		./build/string/string.o					\
 		./build/fs/pparser.o					\
 		./build/memory/scrap/scrap.o			\
-		./build/disk/streamer.o
+		./build/disk/streamer.o					\
+		./build/memory/fmalloc/fmalloc.o
