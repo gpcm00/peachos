@@ -221,5 +221,5 @@ int bins_dealloc_data(struct bins_memory* bin, void* ptr)
 
 void bins_destroy_memory(void* bin)
 {
-    
+    kfree(bin);
 }
