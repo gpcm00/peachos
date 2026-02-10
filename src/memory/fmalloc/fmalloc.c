@@ -3,7 +3,7 @@
 #include "memory/heap/kheap.h"
 
 #define ALIGN(strct)    align(sizeof(strct))  
-#define SIGNATURE_HASH  0x1248137F
+#define SIGNATURE_HASH  0x8421137F
 
 typedef uint32_t FMALLOC_HEAP_ENTRY;
 typedef uint32_t FMALLOC_HEAP_SIGNATURE;
@@ -192,9 +192,45 @@ void* fmalloc_alloc(struct fmalloc_heap* mem, size_t size)
     return ret;
 }
 
+static struct fmalloc_block* get_block(void* ptr)
+{
+    uint32_t base = (uint32_t)ptr - sizeof(struct fmalloc_block);
+    return (struct fmalloc_block*)aligned(base);
+}
 
+static struct free_list* change_to_free_list(struct fmalloc_block* block, struct free_list* next)
+{
+    size_t available = block->available;
+    struct free_list* ret = (struct free_list*)block;
+    ret->available = available + actual_block_size(available);
+    ret->entry = FMALLOC_HEAP_FREE_LIST;
+    ret->next = next;
+    return ret;
+}
+
+static void merge_free_list(struct free_list* mem)
+{
+
+}
+
+static struct free_list* realloc_free_list(struct free_list* mem, void* ptr)
+{
+    struct fmalloc_block* head = get_block(ptr);
+    return change_to_free_list(head, mem);
+}
+
+static struct free_list* _fmalloc_free(struct free_list* mem, void* ptr)
+{
+    if ((uint32_t)ptr > (uint32_t)mem) {
+        mem->next = _fmalloc_free(mem->next, ptr);
+    } else {
+        mem = realloc_free_list(mem, ptr);
+    }
+
+    merge_free_list(mem);
+}
 
 void fmalloc_free(struct fmalloc_heap* mem, void* ptr)
 {
-
+    mem->base = _fmalloc_free(mem->base, ptr);
 }
