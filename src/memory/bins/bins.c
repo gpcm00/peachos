@@ -22,6 +22,11 @@ struct taken_block_header {
     uint8_t entry;
 } __attribute__((packed));
 
+#define MIN_BIN_SIZE                                                                        \
+    ((sizeof(struct free_list_header) > sizeof(struct taken_block_header)) ?                \
+        sizeof(struct free_list_header)  :                                                  \
+        sizeof(struct taken_block_header))
+
 static uint32_t align_to_page_size(size_t addr)
 {
     return (addr + (PEACHOS_HEAP_BLOCK_SIZE-1)) & ~((PEACHOS_HEAP_BLOCK_SIZE-1));
@@ -54,17 +59,17 @@ static bool validate_alignment(uint32_t alignment)
 
 static bool validate_bin_size(uint32_t bin_size)
 {
-    uint32_t min_size = align_to(sizeof(struct free_list_header), sizeof(uint32_t));
+    uint32_t min_size = align_to(MIN_BIN_SIZE, sizeof(uint32_t));
     return (bin_size > min_size) && validate_alignment(bin_size);
 }
 
-void* get_next_bin(void* addr, uint32_t bin_size)
+static void* get_next_bin(void* addr, uint32_t bin_size)
 {
     uint32_t ret = aligned((uint32_t)addr, bin_size) + bin_size;
     return (void*)ret;
 }
 
-void* get_previous_bin(void* addr, uint32_t bin_size)
+static void* get_previous_bin(void* addr, uint32_t bin_size)
 {
     uint32_t ret = aligned((uint32_t)addr, bin_size) - bin_size;
     return (void*)ret;   
@@ -160,12 +165,21 @@ struct free_list_header* _alloc_data(struct free_list_header* header, uint32_t n
     return header->next;
 }
 
+static bool validate_alloc_args(struct bins_memory* bin, size_t size) 
+{
+    return size > 0 && bin != NULL;
+}
+
 void* bins_alloc_data(struct bins_memory* bin, size_t size) 
 {
     void* ret = NULL;
-    uint32_t n_bins = align_to(size, bin->bin_size) / bin->bin_size;
-    bin->next = _alloc_data(bin->next, n_bins, bin->bin_size, &ret);
+    uint32_t n_bins = 0;
 
+    if (validate_alloc_args(bin, size)) {
+        n_bins = align_to(size, bin->bin_size) / bin->bin_size;
+        bin->next = _alloc_data(bin->next, n_bins, bin->bin_size, &ret);
+    }
+    
     return ret;
 }
 
@@ -209,8 +223,12 @@ void* _dealloc_data(struct free_list_header* header, struct taken_block_header* 
 
 int bins_dealloc_data(struct bins_memory* bin, void* ptr)
 {
+    if (!bin || !ptr) {
+        return -EINVARG;
+    }
+
     struct taken_block_header* taken_header = get_taken_block_header(ptr, bin->bin_size);
-    if (taken_header == NULL) {
+    if (taken_header == NULL || bin->next == NULL) {
         return -EINVARG;
     }
 
