@@ -37,6 +37,7 @@ void disk_search_and_init()
     memset(&idisk, 0, sizeof(idisk));
     idisk.type = PEACHOS_DISK_TYPE_REAL;
     idisk.sector_size = PEACHOS_SECTOR_SIZE;
+    idisk.filesystem = fs_resolve(&idisk);
 }
 
 struct disk* get_disk(int index)

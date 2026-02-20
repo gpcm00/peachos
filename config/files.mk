@@ -8,10 +8,11 @@ FILES = ./build/kernel.asm.o					\
 		./build/memory/paging/paging.o			\
 		./build/memory/paging/paging.asm.o		\
 		./build/memory/scrap/scrap.o			\
+		./build/memory/bins/bins.o				\
 		./build/idt/idt.asm.o					\
 		./build/idt/idt.o						\
 		./build/io/io.asm.o						\
 		./build/disk/disk.o						\
 		./build/disk/streamer.o					\
 		./build/fs/pparser.o					\
-		./build/memory/bins/bins.o
+		./build/fs/file.o

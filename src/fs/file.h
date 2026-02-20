@@ -2,7 +2,6 @@
 #define FILE_H
 
 #include "peachos.h"
-#include "disk/disk.h"
 #include "pparser.h"
 
 typedef unsigned int FILE_SEEK;
@@ -20,6 +19,8 @@ enum {
     FILE_MODE_INVALID,
 };
 
+struct disk;
+
 typedef void* (*FS_OPEN_FUNCTION)(struct disk*, struct path_part*, FILE_MODE);
 typedef int (*FS_RESOLVE_FUNCTION)(struct disk*);
 
@@ -35,15 +36,14 @@ struct file_descriptor
 {
     int index;
     struct filesystem* filesystem;
+    struct disk* disk;
 
     void* private_data;
-
-    struct disk* disk;
 };
 
 int fopen(const char* filename, const char* mode);
 
 void fs_init();
-void fs_insert_filesystem(struct filesystem* filesystem);
+int fs_insert_filesystem(struct filesystem* filesystem);
 struct filesystem* fs_resolve(struct disk* disk);
 #endif

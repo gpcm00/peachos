@@ -60,6 +60,10 @@ all: ./build/boot.bin ./bin/kernel.bin
 	mkdir -p ./build/memory/scrap
 	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/scrap/scrap.c -o ./build/memory/scrap/scrap.o
 
+./build/memory/bins/bins.o: ./src/memory/bins/bins.c
+	mkdir -p ./build/memory/bins
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/bins/bins.c -o ./build/memory/bins/bins.o
+
 ./build/idt/idt.asm.o: ./src/idt/idt.asm
 	mkdir -p ./build/idt
 	$(AS) -f elf -g ./src/idt/idt.asm -o ./build/idt/idt.asm.o
@@ -84,9 +88,9 @@ all: ./build/boot.bin ./bin/kernel.bin
 	mkdir -p ./build/fs
 	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/fs/pparser.c -o ./build/fs/pparser.o
 
-./build/memory/bins/bins.o: ./src/memory/bins/bins.c
-	mkdir -p ./build/memory/bins
-	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/bins/bins.c -o ./build/memory/bins/bins.o
+./build/fs/file.o: ./src/fs/file.c
+	mkdir -p ./build/fs
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/fs/file.c -o ./build/fs/file.o
 
 clean:
 	rm -rf ./bin/boot.bin

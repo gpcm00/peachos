@@ -2,6 +2,7 @@
 #define DISK_H
 
 #include "peachos.h"
+#include "fs/file.h"
 
 
 typedef enum PEACHOS_DISK_TYPE {
@@ -11,6 +12,8 @@ typedef enum PEACHOS_DISK_TYPE {
 struct disk {
     PEACHOS_DISK_TYPE type;
     size_t sector_size;
+
+    struct filesystem* filesystem;
 };
 
 void disk_search_and_init();
