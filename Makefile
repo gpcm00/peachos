@@ -13,6 +13,7 @@ all: ./build/boot.bin ./bin/kernel.bin
 	dd if=/dev/zero bs=1048576 count=16 >> ./bin/os.bin
 	sudo mount -t vfat ./bin/os.bin /mnt/d
 # Copy files over
+	sudo cp ./hello.txt /mnt/d
 	sudo umount /mnt/d
 	
 ./bin/kernel.bin: $(FILES)
@@ -91,6 +92,10 @@ all: ./build/boot.bin ./bin/kernel.bin
 ./build/fs/file.o: ./src/fs/file.c
 	mkdir -p ./build/fs
 	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/fs/file.c -o ./build/fs/file.o
+
+./build/fs/fat/fat16.o: ./src/fs/fat/fat16.c
+	mkdir -p ./build/fs/fat
+	$(CC) $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/fs/fat/fat16.c -o ./build/fs/fat/fat16.o
 
 clean:
 	rm -rf ./bin/boot.bin

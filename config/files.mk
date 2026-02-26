@@ -15,4 +15,5 @@ FILES = ./build/kernel.asm.o					\
 		./build/disk/disk.o						\
 		./build/disk/streamer.o					\
 		./build/fs/pparser.o					\
-		./build/fs/file.o
+		./build/fs/file.o						\
+		./build/fs/fat/fat16.o

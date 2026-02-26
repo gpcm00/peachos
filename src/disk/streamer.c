@@ -4,7 +4,7 @@ struct disk_streamer diskstreamer_new(int disk_id)
 {
     struct disk_streamer ret;
 
-    ret.disk = get_disk(disk_id);
+    ret.disk = disk_get(disk_id);
     ret.pos = 0;
 
     return ret;
@@ -21,7 +21,9 @@ int diskstreamer_read(struct disk_streamer* streamer, void* out, size_t total)
     char buffer[PEACHOS_SECTOR_SIZE];
 
     size_t current_offset = streamer->pos;
-    bool overflow = ((current_offset + total) >= PEACHOS_SECTOR_SIZE);
+    size_t read_offset = current_offset % PEACHOS_SECTOR_SIZE;
+
+    bool overflow = ((read_offset + total) >= PEACHOS_SECTOR_SIZE);
 
     int lba = current_offset / PEACHOS_SECTOR_SIZE;
     int ret = disk_read_block(streamer->disk, lba, 1, buffer);
@@ -29,7 +31,6 @@ int diskstreamer_read(struct disk_streamer* streamer, void* out, size_t total)
         goto Fail_Out;
     }
 
-    size_t read_offset = current_offset % PEACHOS_SECTOR_SIZE;
     size_t read_size = (overflow)? PEACHOS_SECTOR_SIZE - read_offset : total;
 
     char* c_out = (char*)out;

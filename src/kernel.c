@@ -10,6 +10,7 @@
 #include "memory/paging/paging.h"
 #include "memory/bins/bins.h"
 #include "fs/pparser.h"
+#include "fs/file.h"
 
 #define KERNEL_CHUNK_FLAGS                                      \
     (PAGING_WRITEABLE | PAGING_PRESENT | PAGING_ACCESS_FROM_ALL)
@@ -25,14 +26,14 @@ void kernel_main()
 {
     terminal_init();
 
-    idt_init();
-
-    disk_search_and_init();
-
     if (kheap_init() < 0) {
         print("Failed to initialize the heap!\n");
         while(1);
     }
+
+    fs_init();
+    disk_search_and_init();
+    idt_init();
 
     kernel_chunk = paging_new_4gb(KERNEL_CHUNK_FLAGS);
     paging_switch(&kernel_chunk);
@@ -80,6 +81,7 @@ void kernel_main()
     // print_newline();
 
     // for ()
-    
+    struct disk* d = disk_get(0);
+    if (!d) panic("panic!");
     while(1);
 }

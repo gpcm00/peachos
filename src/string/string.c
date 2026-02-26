@@ -26,3 +26,15 @@ int tonumericdigit(char c)
 {
     return c - '0';
 }
+
+char* strcpy(char* dst, const char* src)
+{
+    char* ret = dst;
+    while (*src) {
+        *(dst++) = *(src++);
+    }
+
+    *dst = '\0';
+
+    return ret;
+}

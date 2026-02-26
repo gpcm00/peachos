@@ -1,5 +1,6 @@
 #include "file.h"
 #include "memory/memory.h"
+#include "fat/fat16.h"
 
 #define LEN(arr)    (sizeof(arr)/sizeof(arr[0]))
 
@@ -37,7 +38,7 @@ int fs_insert_filesystem(struct filesystem* filesystem)
 }
 static void fs_static_load() 
 {
-    // fs_insert_filesystem(fat16_init());
+    fs_insert_filesystem(fat16_init());
 }
 void fs_load()
 {
@@ -64,7 +65,7 @@ static int file_new_descriptor(struct file_descriptor* desc_out)
     return -ENOMEM;
 }
 
-static struct file_descriptor* file_descriptor_fd(int fd)
+struct file_descriptor* file_descriptor_fd(int fd)
 {
     if (fd <= 0 || fd > LEN(file_descriptors)) {
         return NULL;

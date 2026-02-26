@@ -14,10 +14,14 @@ struct disk {
     size_t sector_size;
 
     struct filesystem* filesystem;
+
+    int disk_id;
+
+    void* private_data;
 };
 
 void disk_search_and_init();
-struct disk* get_disk(int index);
+struct disk* disk_get(int index);
 int disk_read_block(struct disk* disk, int lba, size_t total, void* buf);
 
 #endif
