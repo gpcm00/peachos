@@ -42,43 +42,45 @@ void kernel_main()
     enable_interrupts();
 
     // tests --------------------------------------------------
-    // struct bins_memory* heap = bins_alloc_memory(PEACHOS_HEAP_BLOCK_SIZE, 16);
+    struct bins_memory* heap = bins_alloc_memory(PEACHOS_HEAP_BLOCK_SIZE, 16);
     // print_raw_bytes(&heap, sizeof(void*));
     // print_newline();
     // print_newline();
 
-    // // print_raw_bytes(heap, 32);
+    // print_raw_bytes(heap, 32);
     // print_newline();
 
-    int tst = 0;
-    print("Test:\n\\b \\w \\d \\i \\u\n", tst, tst, tst, tst, tst);
-    print("Test:\n\\b \\w \\d \\i \\u\n", tst, tst, tst);
-    print("Test:\n\\b \\w \\d \\i \\u\n", tst, tst, tst, tst, tst, tst);
+    // int tst = 0;
+    // print("Test:\n\\b \\w \\d \\i \\u\n", tst, tst, tst, tst, tst);
+    // print("Test:\n\\b \\w \\d \\i \\u\n", tst, tst, tst);
+    // print("Test:\n\\b \\w \\d \\i \\u\n", tst, tst, tst, tst, tst, tst);
 
-    // size_t sizes[] = {50, 9, 11, 14, 20};
-    // const int len = sizeof(sizes) / sizeof(sizes[0]);
-    // void* p[len];
-    // for (int i = 0; i < len; i++) {
-    //     p[i] = bins_alloc_data(heap, sizes[i]);
-    //     if (!p[i]) panic("Failed");
-    //     // print_raw_bytes(&p[i], sizeof(void*));
-    //     // print_newline();
+    size_t sizes[] = {50, 9, 11, 14, 20};
+    const int len = sizeof(sizes) / sizeof(sizes[0]);
+    void* p[len];
+    for (int i = 0; i < len; i++) {
+        p[i] = bins_alloc_data(heap, sizes[i]);
+        if (!p[i]) panic("Failed");
+        // print_raw_bytes(&p[i], sizeof(void*));
+        // print_newline();
 
-    //     // if (p[i] != NULL) {
-    //     //     print_raw_bytes(p[i] - 16, 16);
-    //     // }
-    // }
+        // if (p[i] != NULL) {
+        //     print_raw_bytes(p[i] - 16, 16);
+        // }
+    }
 
 
-    // if (bins_dealloc_data(heap, p[3]) < 0) panic("Failed to dealloc");
-    // if (bins_dealloc_data(heap, p[2]) < 0) panic("Failed to dealloc");
-    // if (bins_dealloc_data(heap, p[4]) < 0) panic("Failed to dealloc");
+    if (bins_dealloc_data(heap, p[3]) < 0) panic("Failed to dealloc");
+    if (bins_dealloc_data(heap, p[2]) < 0) panic("Failed to dealloc");
+    if (bins_dealloc_data(heap, p[4]) < 0) panic("Failed to dealloc");
     // if (bins_dealloc_data(heap, p[0]) < 0) panic("Failed to dealloc");
 
-    // print_raw_bytes(heap, 256);
-    // print_newline();
+    p[3] = bins_alloc_data(heap, 19);
 
-    // print_newline();
+    print_raw_bytes(heap, 256+32);
+    print_newline();
+
+    print_newline();
 
     // for ()
     struct disk* d = disk_get(0);

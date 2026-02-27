@@ -158,11 +158,11 @@ struct free_list_header* _alloc_data(struct free_list_header* header, uint32_t n
         make_taken_block_header(header, n_bins, bin_size);
         *ret = get_next_bin(header, bin_size);
         return next;
-    } else {
-        header->next = _alloc_data(header->next, n_bins, bin_size, ret);
-    }
+    } 
+    
+    header->next = _alloc_data(header->next, n_bins, bin_size, ret); 
 
-    return header->next;
+    return header;
 }
 
 static bool validate_alloc_args(struct bins_memory* bin, size_t size) 

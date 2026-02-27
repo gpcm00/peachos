@@ -172,8 +172,6 @@ static int fat16_get_total_items_for_dir(struct disk* disk, struct fat_private* 
     memset(&item, 0, sizeof(item));
     memset(&empty_item, 0, sizeof(empty_item));
 
-    // struct fat_private* private = &disk->private_data;
-
     int i = 0;
     int start_pos = start * disk->sector_size;
     struct disk_streamer* stream = &private->directory_read_stream;
